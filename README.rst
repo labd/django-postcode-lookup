@@ -2,7 +2,12 @@
 django-postcode-lookup
 ======================
 
-Pluggable postcode lookup endpoint
+Pluggable postcode lookup endpoint.
+
+Currently supports the following services:
+ - ApiWise
+ - Webservices.nl
+
 
 Status
 ======
