@@ -2,7 +2,8 @@
 django-postcode-lookup
 ======================
 
-Pluggable postcode lookup endpoint.
+This Django app providers a pluggable postcode django restframework endpoint. It currently only works
+for postcodes in The Netherlands.
 
 Currently supports the following services:
  - ApiWise
