@@ -14,8 +14,8 @@ Status
 .. image:: https://travis-ci.org/LabD/django-postcode-lookup.svg?branch=master
     :target: https://travis-ci.org/LabD/django-postcode-lookup
 
-.. image:: http://codecov.io/github/labd/django-postcode-lookup/coverage.svg?branch=master 
-    :target: http://codecov.io/github/labd/django-postcode-lookup?branch=master
+.. image:: http://codecov.io/github/LabD/django-postcode-lookup/coverage.svg?branch=master 
+    :target: http://codecov.io/github/LabD/django-postcode-lookup?branch=master
     
 .. image:: https://img.shields.io/pypi/v/django-postcode-lookup.svg
     :target: https://pypi.python.org/pypi/django-postcode-lookup/
