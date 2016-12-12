@@ -1,3 +1,4 @@
+from django.core.exceptions import ImproperlyConfigured
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
@@ -28,9 +29,11 @@ class PostcodeLookupView(APIView):
 
 
         """
+        if not self.backend:
+            raise ImproperlyConfigured("No backend is defined")
+
         serializer = self.serializer_class(data=request.query_params)
         serializer.is_valid(raise_exception=True)
 
         result = self.backend.lookup(**serializer.data)
-
         return Response(result.json())
