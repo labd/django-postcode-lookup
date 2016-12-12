@@ -10,11 +10,16 @@ class PostcodeLookupView(APIView):
     serializer_class = serializers.PostcodeLookupSerializer
     backend = loading.get_backend()
 
-    def get(self, request, format=None):
+    def post(self, request, format=None):
         """
         Usage::
 
-            GET /checkout/address-lookup?postcode=X&number=Y
+            POST /checkout/address-lookup
+            {
+                'postcode': X,
+                'number': Y,
+                'key': 'signing-key',
+            }
 
         Returns::
 
@@ -32,8 +37,14 @@ class PostcodeLookupView(APIView):
         if not self.backend:
             raise ImproperlyConfigured("No backend is defined")
 
-        serializer = self.serializer_class(data=request.query_params)
+        serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
-        result = self.backend.lookup(**serializer.data)
+        result = self.backend.lookup(
+            postcode=serializer.data['postcode'],
+            number=serializer.data['number'])
         return Response(result.json())
+
+    def get_serializer(self, **kwargs):
+        return self.serializer_class(
+            backend=self.backend, **kwargs)

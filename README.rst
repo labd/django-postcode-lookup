@@ -38,6 +38,7 @@ Add the following to your urls.py:
 
     url(r'^postcode-lookup/', include('django_postcode_lookup.urls')),
 
+
 Add a setting with the required backend
 
 .. code-block:: python
@@ -51,3 +52,18 @@ Add a setting with the required backend
             }
         }
     }
+
+
+To offer some form of protection to the api endpoint for usage by others an
+api key is by default required. This API key expires after 60 minutes and 
+can be generated via ``django_postcode_lookup.signing.create_api_key()`` or by
+using a templatetag:
+
+
+.. code-block:: html
+
+    {% load postcode_lookup_tags %}
+    <form 
+        data-postcode-url="{% url 'postcode_lookup' %}" 
+        data-postcode-key="{% postcode_lookup_key %}">
+    </form>

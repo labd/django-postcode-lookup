@@ -2,7 +2,7 @@ import requests_mock
 from rest_framework.test import APIRequestFactory
 
 from django_postcode_lookup import views
-from django_postcode_lookup import loading
+from django_postcode_lookup import loading, signing
 
 
 def test_api_webservices_valid(settings):
@@ -20,9 +20,10 @@ def test_api_webservices_valid(settings):
 
     params = {
         'postcode': '3531 WR',
-        'number': '1'
+        'number': '1',
+        'key': signing.create_api_key(),
     }
-    request = rf.get('/', data=params, format='json')
+    request = rf.post('/', data=params, format='json')
 
     views.PostcodeLookupView.backend = loading.get_backend()  # re-init backend
     view = views.PostcodeLookupView.as_view()
@@ -59,7 +60,7 @@ def test_api_webservices_valid(settings):
             text=response)
 
         response = view(request)
-        assert response.status_code == 200
+        assert response.status_code == 200, response.rendered_content
         assert response.data == {
             'street': 'Niasstraat',
             'number': '1',

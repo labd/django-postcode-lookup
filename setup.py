@@ -13,10 +13,12 @@ docs_require = [
 ]
 
 tests_require = [
+    'freezegun==0.3.8',
+    'pretend==1.0.8',
+    'pytest-cov==2.4.0',
+    'pytest-django==3.1.2',
+    'pytest==3.0.5',
     'requests-mock==1.1.0',
-    'pytest>=2.8.3',
-    'pytest-cov>=2.2.0',
-    'pytest-django>=2.9.1',
 
     # Linting
     'isort==4.2.5',
