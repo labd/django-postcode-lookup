@@ -38,7 +38,6 @@ setup(
         'docs': docs_require,
         'test': tests_require,
     },
-    use_scm_version=True,
     entry_points={},
     package_dir={'': 'src'},
     packages=find_packages('src'),
