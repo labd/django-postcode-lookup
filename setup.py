@@ -13,6 +13,7 @@ docs_require = [
 ]
 
 tests_require = [
+    'requests-mock==1.1.0',
     'pytest>=2.8.3',
     'pytest-cov>=2.2.0',
     'pytest-django>=2.9.1',
