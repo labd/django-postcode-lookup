@@ -11,8 +11,8 @@ Currently supports the following services:
 
 Status
 ======
-.. image:: https://travis-ci.org/labd/django-postcode-lookup.svg?branch=master
-    :target: https://travis-ci.org/labd/django-postcode-lookup
+.. image:: https://travis-ci.org/LabD/django-postcode-lookup.svg?branch=master
+    :target: https://travis-ci.org/LabD/django-postcode-lookup
 
 .. image:: http://codecov.io/github/labd/django-postcode-lookup/coverage.svg?branch=master 
     :target: http://codecov.io/github/labd/django-postcode-lookup?branch=master
