@@ -41,4 +41,12 @@ Add a setting with the required backend
 
 .. code-block:: python
 
-    POSTCODE_LOOKUP_BACKEND = 'django_postcode_lookup.backend.webservices_nl'
+    POSTCODE_LOOKUP = {
+        'default': {
+            'backend': 'django_postcode_lookup.backends.Webservices',
+            'OPTIONS': {
+                'username': 'someuser',
+                'password': 'somepassword',
+            }
+        }
+    }
