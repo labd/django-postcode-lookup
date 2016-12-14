@@ -1,4 +1,4 @@
-from django.middleware.csrf import get_token as get_csrf_token
+from django.middleware import csrf
 from freezegun import freeze_time
 from pretend import stub
 from rest_framework.test import APIRequestFactory
@@ -14,9 +14,9 @@ def test_valid_api_key():
         'number': '1',
     }
     request = rf.post('/', data=params, format='json')
-    csrf_token = get_csrf_token(request)
-    request.COOKIES['csrftoken'] = csrf_token
-    request.META['HTTP_X_CSRFTOKEN'] = csrf_token
+    csrf.rotate_token(request)
+    request.COOKIES['csrftoken'] = request.META['CSRF_COOKIE']
+    request.META['HTTP_X_CSRFTOKEN'] = request.META['CSRF_COOKIE']
 
     views.PostcodeLookupView.backend = stub(
         lookup=lambda postcode, number: PostcodeLookupResult(
