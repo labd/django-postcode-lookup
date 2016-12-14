@@ -1,8 +1,7 @@
 import requests_mock
 from rest_framework.test import APIRequestFactory
 
-from django_postcode_lookup import views
-from django_postcode_lookup import loading, signing
+from django_postcode_lookup import loading, views
 
 
 def test_api_webservices_valid(settings):
@@ -21,7 +20,6 @@ def test_api_webservices_valid(settings):
     params = {
         'postcode': '3531 WR',
         'number': '1',
-        'key': signing.create_api_key(),
     }
     request = rf.post('/', data=params, format='json')
 

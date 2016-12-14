@@ -23,9 +23,8 @@ class _none(object):
 
 class Backend(object):
 
-    def __init__(self, cache_timeout=3600, validate_api_key=True):
+    def __init__(self, cache_timeout=3600):
         self._cache_timeout = cache_timeout
-        self.validate_api_key = validate_api_key
 
     def lookup(self, postcode, number):
         query = (postcode + str(number)).replace(' ', '').upper()

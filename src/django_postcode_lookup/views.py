@@ -1,4 +1,6 @@
 from django.core.exceptions import ImproperlyConfigured
+from rest_framework.authentication import CSRFCheck
+from rest_framework.exceptions import PermissionDenied
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
@@ -18,7 +20,6 @@ class PostcodeLookupView(APIView):
             {
                 'postcode': X,
                 'number': Y,
-                'key': 'signing-key',
             }
 
         Returns::
@@ -37,6 +38,8 @@ class PostcodeLookupView(APIView):
         if not self.backend:
             raise ImproperlyConfigured("No backend is defined")
 
+        self._enforce_csrf(request)
+
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
@@ -48,3 +51,16 @@ class PostcodeLookupView(APIView):
     def get_serializer(self, **kwargs):
         return self.serializer_class(
             backend=self.backend, **kwargs)
+
+    def _enforce_csrf(self, request):
+        """Make sure that we have a valid CSRF token.
+
+        Django restframework does validate this when using the
+        SessionAuthentication but since that also checks if the user is
+        authenticated we can't really use that
+
+        """
+        reason = CSRFCheck().process_view(request, None, (), {})
+        if reason:
+            # CSRF failed, bail with explicit error message
+            raise PermissionDenied('CSRF Failed: %s' % reason)
