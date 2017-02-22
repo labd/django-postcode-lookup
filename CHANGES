@@ -1,7 +1,13 @@
+0.3.0 (2017-02-22)
+==================
+ - Fixes for the apiwise backend
+  
+
 0.2.0 (2016-12-14)
 ==================
  - Publish a POST request instead of a GET request. This also is protected by
    a CSRF check
+
 
 0.1.0
 =====
