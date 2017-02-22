@@ -46,8 +46,8 @@ class PostcodeLookupView(APIView):
         result = self.backend.lookup(
             postcode=serializer.data['postcode'],
             number=serializer.data['number'])
-
-        return Response(result)
+            
+        return Response(result.json())
 
     def get_serializer(self, **kwargs):
         return self.serializer_class(

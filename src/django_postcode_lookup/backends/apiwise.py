@@ -14,10 +14,6 @@ _default = _none()
 ENDPOINT = 'https://postcode-api.apiwise.nl/v2/addresses/'
 
 
-AddressLookupResult = namedtuple(
-    'AddressLookupResult', ['postcode', 'street', 'city'])
-
-
 class ApiWise(base.Backend):
     _endpoint = 'https://postcode-api.apiwise.nl/v2/addresses/'
 
@@ -43,11 +39,12 @@ class ApiWise(base.Backend):
 
 def _extract_results(data):
     if not data.get('_embedded') or not data['_embedded'].get('addresses'):
-        return
+        raise base.PostcodeLookupException()
 
     result = data['_embedded']['addresses'][0]
 
     postcode = result['postcode']
+    number = result['number']
     street = result['street']
     city = result['city']['label']
 
@@ -55,7 +52,8 @@ def _extract_results(data):
     if len(postcode) == 6:
         postcode = postcode[:4] + ' ' + postcode[4:]
 
-    return {
-        'street': street,
-        'city': city,
-    }
+    return base.PostcodeLookupResult(
+        postcode=postcode,
+        number=number,
+        city=city,
+        street=street)
