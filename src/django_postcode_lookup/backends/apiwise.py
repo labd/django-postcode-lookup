@@ -3,7 +3,7 @@ from collections import namedtuple
 import requests
 
 from django_postcode_lookup.backends import base
-from six.urllib.parse import urlencode
+from six.moves.urllib.parse import urlencode
 
 
 class _none(object):
@@ -12,10 +12,6 @@ class _none(object):
 _default = _none()
 
 ENDPOINT = 'https://postcode-api.apiwise.nl/v2/addresses/'
-
-
-AddressLookupResult = namedtuple(
-    'AddressLookupResult', ['postcode', 'street', 'city'])
 
 
 class ApiWise(base.Backend):
@@ -34,7 +30,7 @@ class ApiWise(base.Backend):
         })
 
         response = requests.get(endpoint, headers={
-            'X-Api-Key': self.api_key
+            'X-Api-Key': self._api_key
         })
 
         if response.status_code == 200:
@@ -43,11 +39,12 @@ class ApiWise(base.Backend):
 
 def _extract_results(data):
     if not data.get('_embedded') or not data['_embedded'].get('addresses'):
-        return
+        raise base.PostcodeLookupException()
 
     result = data['_embedded']['addresses'][0]
 
     postcode = result['postcode']
+    number = result['number']
     street = result['street']
     city = result['city']['label']
 
@@ -55,8 +52,8 @@ def _extract_results(data):
     if len(postcode) == 6:
         postcode = postcode[:4] + ' ' + postcode[4:]
 
-    return base.AddressLookupResult(
+    return base.PostcodeLookupResult(
         postcode=postcode,
-        number=data['number'],
+        number=number,
         city=city,
         street=street)
