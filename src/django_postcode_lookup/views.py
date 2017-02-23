@@ -5,6 +5,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from django_postcode_lookup import loading, serializers
+from django_postcode_lookup.backends.base import PostcodeLookupException
 
 
 class PostcodeLookupView(APIView):
@@ -43,10 +44,15 @@ class PostcodeLookupView(APIView):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
-        result = self.backend.lookup(
-            postcode=serializer.data['postcode'],
-            number=serializer.data['number'])
-            
+        try:
+            result = self.backend.lookup(
+                postcode=serializer.data['postcode'],
+                number=serializer.data['number'])
+        except PostcodeLookupException:
+            return Response({
+                'error': 'No valid response received from backend'
+            },
+            status=400)
         return Response(result.json())
 
     def get_serializer(self, **kwargs):
