@@ -3,9 +3,9 @@ from setuptools import find_packages, setup
 install_requires = [
     'Django>=1.8',
     'attrs',
-    'djangorestframework>=3,<4',
-    'requests>=2.7',
-    'six>=1.1',
+    'djangorestframework>=3.9.1',
+    'requests>=2.21',
+    'six>=1.12',
 ]
 
 docs_require = [
