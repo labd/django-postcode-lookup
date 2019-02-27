@@ -2,6 +2,8 @@
 django-postcode-lookup
 ======================
 
+https://django-postcode-lookup.readthedocs.io/en/latest/
+
 This Django app providers a pluggable postcode django restframework endpoint. It currently only works
 for postcodes in The Netherlands.
 
