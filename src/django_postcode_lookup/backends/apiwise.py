@@ -1,9 +1,8 @@
-from collections import namedtuple
+from urllib.parse import urlencode
 
 import requests
 
 from django_postcode_lookup.backends import base
-from six.moves.urllib.parse import urlencode
 
 
 class _none(object):
