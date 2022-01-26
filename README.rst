@@ -8,6 +8,7 @@ for postcodes in The Netherlands.
 Currently supports the following services:
  - ApiWise
  - Webservices.nl
+ - postcodeapi.nu
 
 
 Status

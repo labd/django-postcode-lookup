@@ -1,7 +1,6 @@
 from typing import Optional, Dict, Any
 
 import requests
-from django.core.exceptions import ImproperlyConfigured
 
 from django_postcode_lookup.backends import base
 
@@ -16,17 +15,6 @@ class PostcodeApiNu(base.Backend):
             "x-api-key": api_key,
             "Accept": "application/json"
         }
-
-        if not all(
-            required
-            for required in [
-                api_key,
-                base_url
-            ]
-        ):
-            raise ImproperlyConfigured(
-                "PostcodeApiNu requires all attributes to be non empty"
-            )
 
     def _get(self, postcode: str, number: str) -> Optional[base.PostcodeLookupResult]:
         postcode = postcode.replace(' ', '').upper()

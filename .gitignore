@@ -1,7 +1,6 @@
 __pycache__/
 *.py[cod]
 *.sqlite3
-.coverage
 .idea/
 
 # Build
@@ -12,3 +11,7 @@ dist/
 .cache
 .tox
 htmlcov
+
+# test coverage
+reports/
+.coverage

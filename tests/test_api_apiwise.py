@@ -4,15 +4,14 @@ from rest_framework.test import APIRequestFactory
 from django_postcode_lookup import loading, views
 
 
-def test_api_postcodeapinu_valid(settings):
+def test_api_apiwise_valid(settings):
     rf = APIRequestFactory()
 
     settings.POSTCODE_LOOKUP = {
         'default': {
-            'backend': 'django_postcode_lookup.backends.PostcodeApiNu',
+            'backend': 'django_postcode_lookup.backends.ApiWise',
             'OPTIONS': {
                 'api_key': '1234abcd',
-                'base_url': 'https://sandbox.postcodeapi.nu/v3/lookup',
             }
         }
     }
@@ -28,13 +27,21 @@ def test_api_postcodeapinu_valid(settings):
 
     with requests_mock.Mocker() as m:
         response = {
-            'street': 'Kanaalweg',
-            'number': '14',
-            'postcode': '3625 KL',
-            'city': 'Utrecht',
+            '_embedded': {
+                'addresses': [
+                    {
+                        'postcode': '3625 KL',
+                        'number': '14',
+                        'street': 'Kanaalweg',
+                        'city': {
+                            'label': 'Utrecht'
+                        }
+                    }
+                ]
+            }
         }
         m.get(
-            f"https://sandbox.postcodeapi.nu/v3/lookup/3625KL/14",
+            'https://postcode-api.apiwise.nl/v2/addresses/?postcode=3625KL&number=14',
             json=response)
 
         response = view(request)
