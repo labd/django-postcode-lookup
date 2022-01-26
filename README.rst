@@ -43,6 +43,7 @@ Add the following to your urls.py:
 Add a setting with the required backend
 
 Webservices:
+
 .. code-block:: python
 
     POSTCODE_LOOKUP = {
@@ -56,6 +57,7 @@ Webservices:
     }
 
 ApiWise:
+
 .. code-block:: python
 
     POSTCODE_LOOKUP = {
@@ -68,6 +70,7 @@ ApiWise:
     }
 
 postcodeapi.nu:
+
 .. code-block:: python
 
     POSTCODE_LOOKUP = {
