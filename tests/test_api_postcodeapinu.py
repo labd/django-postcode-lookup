@@ -34,7 +34,7 @@ def test_api_postcodeapinu_valid(settings):
             'city': 'Utrecht',
         }
         m.get(
-            f"https://sandbox.postcodeapi.nu/v3/lookup/3625KL/14",
+            "https://sandbox.postcodeapi.nu/v3/lookup/3625KL/14",
             json=response)
 
         response = view(request)

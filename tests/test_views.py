@@ -1,6 +1,6 @@
 from django.middleware import csrf
-from pretend import stub
 from freezegun import freeze_time
+from pretend import stub
 from rest_framework.test import APIRequestFactory
 
 from django_postcode_lookup import views

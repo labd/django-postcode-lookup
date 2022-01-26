@@ -8,6 +8,7 @@ from django_postcode_lookup.backends import base
 class _none(object):
     pass
 
+
 _default = _none()
 
 ENDPOINT = 'https://postcode-api.apiwise.nl/v2/addresses/'

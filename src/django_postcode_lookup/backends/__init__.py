@@ -1,3 +1,5 @@
+# flake8: noqa
+
 from .apiwise import ApiWise
-from .webservices import Webservices
 from .postcodeapinu import PostcodeApiNu
+from .webservices import Webservices

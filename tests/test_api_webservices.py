@@ -53,9 +53,11 @@ def test_api_webservices_valid(settings):
         </response>
         """.strip()
         m.get(
-            'https://ws1.webservices.nl/rpc/get-simplexml/utf-8/' +
-            'addressReeksPostcodeSearch/someuser/somepassword/3531WR1',
-            text=response)
+            'https://ws1.webservices.nl/rpc/'
+            'get-simplexml/utf-8/' + 'addressReeksPostcodeSearch/'
+                                     'someuser/somepassword/3531WR1',
+            text=response
+        )
 
         response = view(request)
         assert response.status_code == 200, response.rendered_content
