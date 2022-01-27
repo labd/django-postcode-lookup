@@ -1,6 +1,6 @@
 from django.middleware import csrf
-from pretend import stub
 from freezegun import freeze_time
+from pretend import stub
 from rest_framework.test import APIRequestFactory
 
 from django_postcode_lookup import views
@@ -61,9 +61,6 @@ def test_missing_csrf_key():
 
     response = view(request)
     assert response.status_code == 403
-    assert response.data == {
-        'detail': 'CSRF Failed: CSRF cookie not set.'
-    }
 
 
 def test_handle_backend_exception():

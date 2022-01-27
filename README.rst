@@ -2,12 +2,13 @@
 django-postcode-lookup
 ======================
 
-This Django app providers a pluggable postcode django restframework endpoint. It currently only works
+This Django app providers a pluggable postcode django rest framework endpoint. It currently only works
 for postcodes in The Netherlands.
 
 Currently supports the following services:
  - ApiWise
  - Webservices.nl
+ - postcodeapi.nu
 
 
 Status
@@ -36,10 +37,12 @@ Add the following to your urls.py:
 
 .. code-block:: python
 
-    url(r'^postcode-lookup/', include('django_postcode_lookup.urls')),
+    path('postcode-lookup/', include('django_postcode_lookup.urls')),
 
 
 Add a setting with the required backend
+
+Webservices:
 
 .. code-block:: python
 
@@ -53,6 +56,32 @@ Add a setting with the required backend
         }
     }
 
+ApiWise:
+
+.. code-block:: python
+
+    POSTCODE_LOOKUP = {
+        'default': {
+            'backend': 'django_postcode_lookup.backends.ApiWise',
+            'OPTIONS': {
+                'api_key': 'somekey',
+            }
+        }
+    }
+
+postcodeapi.nu:
+
+.. code-block:: python
+
+    POSTCODE_LOOKUP = {
+        'default': {
+            'backend': 'django_postcode_lookup.backends.PostcodeApiNu',
+            'OPTIONS': {
+                'api_key': 'somekey',
+                'base_url': 'https://somebaseurl.com',
+            }
+        }
+    }
 
 To offer some form of protection to the api endpoint for usage by others a 
 valid csrf token is required.

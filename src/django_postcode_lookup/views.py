@@ -1,6 +1,7 @@
 from django.core.exceptions import ImproperlyConfigured
-from rest_framework.authentication import CSRFCheck
-from rest_framework.exceptions import PermissionDenied
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import csrf_protect
+from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
@@ -13,7 +14,12 @@ class PostcodeLookupView(APIView):
     serializer_class = serializers.PostcodeLookupSerializer
     backend = loading.get_backend()
 
-    def post(self, request, format=None):
+    @method_decorator(csrf_protect)
+    def dispatch(self, request, *args, **kwargs):
+        """Add csrf validation to this endpoint without authentication."""
+        return super().dispatch(request, *args, **kwargs)
+
+    def post(self, request):
         """
         Usage::
 
@@ -39,8 +45,6 @@ class PostcodeLookupView(APIView):
         if not self.backend:
             raise ImproperlyConfigured("No backend is defined")
 
-        self._enforce_csrf(request)
-
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
@@ -49,25 +53,15 @@ class PostcodeLookupView(APIView):
                 postcode=serializer.data['postcode'],
                 number=serializer.data['number'])
         except PostcodeLookupException:
-            return Response({
-                'error': 'No valid response received from backend'
-            },
-            status=400)
+            return Response(
+                {
+                    'error': 'No valid response received from backend'
+                },
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
         return Response(result.json())
 
     def get_serializer(self, **kwargs):
         return self.serializer_class(
             backend=self.backend, **kwargs)
-
-    def _enforce_csrf(self, request):
-        """Make sure that we have a valid CSRF token.
-
-        Django restframework does validate this when using the
-        SessionAuthentication but since that also checks if the user is
-        authenticated we can't really use that
-
-        """
-        reason = CSRFCheck().process_view(request, None, (), {})
-        if reason:
-            # CSRF failed, bail with explicit error message
-            raise PermissionDenied('CSRF Failed: %s' % reason)

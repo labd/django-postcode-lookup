@@ -1,5 +1,5 @@
-from django.conf.urls import url, include
+from django.urls import path, include
 
 urlpatterns = [
-    url(r'^postcode-lookup/', include('django_postcode_lookup.urls')),
+    path('postcode-lookup/', include('django_postcode_lookup.urls')),
 ]
