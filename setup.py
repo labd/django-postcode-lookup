@@ -29,7 +29,7 @@ tests_require = [
 
 setup(
     name='django-postcode-lookup',
-    version='1.0',
+    version='1.0.0',
     description="Pluggable postcode lookup endpoint",
     long_description=open('README.rst', 'r').read(),
     url='https://github.com/labd/django-postcode-lookup',
@@ -48,7 +48,7 @@ setup(
     license='MIT',
     keywords=["postcode", "api", "validation"],
     classifiers=[
-        "Development Status :: 1 - Production/Stable",
+        "Development Status :: 5 - Production/Stable",
         'Environment :: Web Environment',
         'Framework :: Django',
         'Framework :: Django :: 3.2',
