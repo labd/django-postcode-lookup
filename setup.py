@@ -46,8 +46,9 @@ setup(
     packages=find_packages('src'),
     include_package_data=True,
     license='MIT',
+    keywords=["postcode", "api", "validation"],
     classifiers=[
-        'Development Status :: 3 - Alpha',
+        "Development Status :: 1 - Production/Stable",
         'Environment :: Web Environment',
         'Framework :: Django',
         'Framework :: Django :: 3.2',
@@ -56,7 +57,6 @@ setup(
         'Programming Language :: Python :: 3.7',
         'Programming Language :: Python :: 3.8',
         'Programming Language :: Python :: 3.9',
-        'Programming Language :: Python :: 3.10',
     ],
     zip_safe=False,
 )
