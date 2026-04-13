@@ -16,7 +16,7 @@ tests_require = [
     'pretend==1.0.9',
     "pytest-cov==2.11.1",
     "pytest-django==4.1.0",
-    "pytest==6.1.2",
+    "pytest==9.0.3",
     "requests-mock==1.8.0",
     "coverage==5.3",
 
