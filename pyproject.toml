@@ -36,17 +36,17 @@ Homepage = "https://github.com/labd/django-postcode-lookup"
 
 [dependency-groups]
 test = [
-  "freezegun==1.1.0",
+  "freezegun==1.5.5",
   "pretend==1.0.9",
-  "pytest-cov==4.1.0",
-  "pytest-django==4.5.2",
-  "pytest==7.4.4",
-  "requests-mock==1.8.0",
-  "coverage==7.5.1",
-  "isort<5",
-  "flake8==3.8.4",
-  "flake8-blind-except==0.1.1",
-  "flake8-debugger==3.2.1",
+  "pytest-cov==7.1.0",
+  "pytest-django==4.12.0",
+  "pytest==9.0.3",
+  "requests-mock==1.12.1",
+  "coverage==7.14.0",
+  "isort==8.0.1",
+  "flake8==7.3.0",
+  "flake8-blind-except==0.2.1",
+  "flake8-debugger==4.1.2",
 ]
 
 [tool.hatch.build.targets.wheel]
