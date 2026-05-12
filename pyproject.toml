@@ -6,9 +6,9 @@ build-backend = "hatchling.build"
 name = "django-postcode-lookup"
 version = "1.0.1"
 description = "Pluggable postcode lookup endpoint"
-readme = "README.rst"
+readme = "README.md"
 license = { file = "LICENSE" }
-requires-python = ">=3.7"
+requires-python = ">=3.10"
 authors = [
   { name = "Michael van Tellingen", email = "michaelvantellingen@gmail.com" },
 ]
@@ -20,9 +20,9 @@ classifiers = [
   "Framework :: Django :: 3.2",
   "License :: OSI Approved :: MIT License",
   "Programming Language :: Python",
-  "Programming Language :: Python :: 3.7",
-  "Programming Language :: Python :: 3.8",
-  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
 ]
 dependencies = [
   "Django>=3.2,<4",
@@ -38,11 +38,11 @@ Homepage = "https://github.com/labd/django-postcode-lookup"
 test = [
   "freezegun==1.1.0",
   "pretend==1.0.9",
-  "pytest-cov==2.11.1",
-  "pytest-django==4.1.0",
-  "pytest==6.1.2",
+  "pytest-cov==4.1.0",
+  "pytest-django==4.5.2",
+  "pytest==7.4.4",
   "requests-mock==1.8.0",
-  "coverage==5.3",
+  "coverage==7.5.1",
   "isort<5",
   "flake8==3.8.4",
   "flake8-blind-except==0.1.1",

@@ -2,7 +2,7 @@
 
 
 install:
-	uv sync --all-extras --group test
+	uv sync --all-groups
 
 test:
 	uv run --group test pytest
