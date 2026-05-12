@@ -2,21 +2,21 @@
 
 
 install:
-	pip install -e .[docs,test]
+	uv sync --all-extras --group test
 
 test:
-	py.test
+	uv run --group test pytest
 
 retest:
-	py.test -vvv --lf
+	uv run --group test pytest -vvv --lf
 
 coverage:
-	py.test --cov=django_postcode_lookup --cov-report=term-missing --cov-report=html
+	uv run --group test pytest --cov=django_postcode_lookup --cov-report=term-missing --cov-report=html
 
 docs:
-	$(MAKE) -C docs html
+	uv run --extra docs $(MAKE) -C docs html
 
 release:
 	rm -rf dist/*
-	python setup.py sdist bdist_wheel
+	uv build
 	twine upload dist/*
