@@ -17,22 +17,25 @@ classifiers = [
   "Development Status :: 5 - Production/Stable",
   "Environment :: Web Environment",
   "Framework :: Django",
-  "Framework :: Django :: 3.2",
+  "Framework :: Django :: 5.2",
+  "Framework :: Django :: 6.0",
   "License :: OSI Approved :: MIT License",
   "Programming Language :: Python",
   "Programming Language :: Python :: 3.10",
   "Programming Language :: Python :: 3.11",
   "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
 ]
 dependencies = [
-  "Django>=3.2,<4",
-  "attrs",
-  "djangorestframework>=3,<4",
-  "requests>=2.7",
+  "Django>=5.2",
+  "attrs>=26.1.0",
+  "djangorestframework>=3.17.1",
+  "requests>=2.34.0",
 ]
 
 [project.urls]
 Homepage = "https://github.com/labd/django-postcode-lookup"
+Changelog = "https://github.com/labd/django-postcode-lookup/blob/master/CHANGELOG.md"
 
 [dependency-groups]
 test = [
@@ -43,10 +46,7 @@ test = [
   "pytest==9.0.3",
   "requests-mock==1.12.1",
   "coverage==7.14.0",
-  "isort==8.0.1",
-  "flake8==7.3.0",
-  "flake8-blind-except==0.2.1",
-  "flake8-debugger==4.1.2",
+  "ruff==0.14.6",
 ]
 
 [tool.hatch.build.targets.wheel]
@@ -54,3 +54,43 @@ packages = ["src/django_postcode_lookup"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 99
+target-version = "py310"
+
+[tool.ruff.lint]
+select = [
+  "BLE",
+  "C90",
+  "D",
+  "E",
+  "F",
+  "I",
+  "T10",
+  "W",
+]
+ignore = ["D1", "D400", "D401", "E731", "F405", "F821"]
+mccabe.max-complexity = 10
+
+[tool.ruff.lint.pydocstyle]
+convention = "pep257"
+
+[tool.mypy]
+python_version = "3.10"
+check_untyped_defs = true
+ignore_missing_imports = true
+no_implicit_optional = true
+strict_equality = true
+warn_no_return = true
+warn_redundant_casts = true
+warn_return_any = true
+warn_unreachable = true
+warn_unused_configs = true
+plugins = ["mypy_django_plugin.main"]
+
+[tool.coverage.html]
+directory = "reports/covhtml"
+
+[tool.coverage.xml]
+output = "reports/coverage.xml"
