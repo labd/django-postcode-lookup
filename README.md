@@ -11,8 +11,6 @@ Currently supports the following services:
 
 ## Status
 
-[![Build Status](https://travis-ci.org/LabD/django-postcode-lookup.svg?branch=master)](https://travis-ci.org/LabD/django-postcode-lookup)
-[![codecov](http://codecov.io/github/LabD/django-postcode-lookup/coverage.svg?branch=master)](http://codecov.io/github/LabD/django-postcode-lookup?branch=master)
 [![PyPI](https://img.shields.io/pypi/v/django-postcode-lookup.svg)](https://pypi.python.org/pypi/django-postcode-lookup/)
 
 ## Installation
@@ -20,6 +18,8 @@ Currently supports the following services:
 ```shell
 pip install django_postcode_lookup
 ```
+
+Minimum supported Django version: 5.2 (Django 6 supported)
 
 ## Usage
 
