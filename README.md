@@ -74,3 +74,15 @@ POSTCODE_LOOKUP = {
 
 To offer some form of protection to the api endpoint for usage by others a
 valid csrf token is required.
+
+## Changelog and releases
+
+This project uses [changie](https://changie.dev/) for changelog management.
+
+Add a changelog fragment in pull requests with:
+
+```shell
+changie new
+```
+
+To prepare a release, run the `Prepare release PR` GitHub Actions workflow. It batches unreleased fragments, updates `CHANGELOG.md` and version files, then opens a release pull request. Merging that release PR publishes the package and creates the GitHub release from the changelog entry.
