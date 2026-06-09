@@ -1,0 +1,47 @@
+name: Tests
+
+on:
+  push:
+    branches: ["main", "master"]
+  pull_request:
+    branches: ["**"]
+
+permissions:
+  contents: read
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.10", "3.11", "3.12", "3.13", "3.14"]
+        django-version: ["5.2.*", "6.0.*"]
+        exclude:
+          - python-version: "3.10"
+            django-version: "6.0.*"
+          - python-version: "3.11"
+            django-version: "6.0.*"
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+
+      - name: Set up Python
+        uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6.2.0
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@08807647e7069bb48b6ef5acd8ec9567f424441b # v8.1.0
+
+      - name: Install dependencies
+        run: uv sync --group test
+
+      - name: Install Django ${{ matrix.django-version }}
+        run: uv pip install "Django==${{ matrix.django-version }}"
+
+      - name: Run lint
+        run: uv run --group test ruff check
+
+      - name: Run tests
+        run: uv run --group test pytest

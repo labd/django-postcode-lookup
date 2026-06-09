@@ -1,0 +1,3 @@
+kind: removed
+body: Removed support for Django < 5.2
+time: 2026-06-01T11:30:44.046835+02:00

@@ -1,0 +1,3 @@
+kind: changed
+body: Replace flake8 for ruff
+time: 2026-06-01T14:10:28.372381+02:00

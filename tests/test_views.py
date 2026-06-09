@@ -4,8 +4,7 @@ from pretend import stub
 from rest_framework.test import APIRequestFactory
 
 from django_postcode_lookup import views
-from django_postcode_lookup.backends.base import (
-    PostcodeLookupException, PostcodeLookupResult)
+from django_postcode_lookup.backends.base import PostcodeLookupException, PostcodeLookupResult
 
 
 def test_valid_api_key():
