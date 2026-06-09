@@ -3,8 +3,11 @@
 # Supported test environments as python:django pairs. Keep this explicit so
 # unsupported combinations, such as Django 6 on Python < 3.12, are not run.
 TEST_MATRIX ?= \
+	'3.10:4.2.*' \
 	'3.10:5.2.*' \
+	'3.11:4.2.*' \
 	'3.11:5.2.*' \
+	'3.12:4.2.*' \
 	'3.12:5.2.*' \
 	'3.12:6.0.*' \
 	'3.13:5.2.*' \
