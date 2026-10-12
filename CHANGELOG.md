@@ -2,6 +2,22 @@
 
 All notable changes to this project are documented in this file.
 
+## 2.0.0 - 2026-10-12
+
+### Added
+
+* Added support for Django >= 5.2
+
+### Changed
+
+* Implemented changelog management via changie
+* Replace setuptools for UV
+* Replace flake8 for ruff
+
+### Removed
+
+* Removed support for Django < 5.2
+
 ## 1.0.1 - 2022-01-28
 
 ### Changed
@@ -41,3 +57,4 @@ All notable changes to this project are documented in this file.
 ### Added
 
 * Initial release.
+
