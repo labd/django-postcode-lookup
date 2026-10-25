@@ -8,7 +8,7 @@ version = "2.0.0"
 description = "Pluggable postcode lookup endpoint"
 readme = "README.md"
 license = { file = "LICENSE" }
-requires-python = ">=3.10"
+requires-python = ">=3.11"
 authors = [
   { name = "Michael van Tellingen", email = "michaelvantellingen@gmail.com" },
 ]
@@ -22,7 +22,8 @@ classifiers = [
   "Framework :: Django :: 6.0",
   "License :: OSI Approved :: MIT License",
   "Programming Language :: Python",
-  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3 :: Only",
   "Programming Language :: Python :: 3.11",
   "Programming Language :: Python :: 3.12",
   "Programming Language :: Python :: 3.13",
