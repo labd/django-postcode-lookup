@@ -16,10 +16,12 @@ jobs:
       fail-fast: false
       matrix:
         python-version: ["3.11", "3.12", "3.13", "3.14"]
-        django-version: ["4.2.*", "5.2.*", "6.0.*"]
+        django-version: ["4.2.*", "5.2.*", "6.0.*", "6.1.*"]
         exclude:
           - python-version: "3.11"
             django-version: "6.0.*"
+          - python-version: "3.11"
+            django-version: "6.1.*"
     steps:
       - name: Checkout repository
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
@@ -41,6 +43,9 @@ jobs:
         env:
           DJANGO_VERSION: ${{ matrix.django-version }}
         run: uv pip install "Django==${DJANGO_VERSION}"
+
+      - name: Check formatting
+        run: uv run --group test ruff format --check
 
       - name: Run lint
         run: uv run --group test ruff check
