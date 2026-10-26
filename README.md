@@ -84,4 +84,6 @@ Add a changelog fragment in pull requests with:
 changie new
 ```
 
-To prepare a release, run the `Prepare release PR` GitHub Actions workflow. It batches unreleased fragments, updates `CHANGELOG.md` and version files, then opens a release pull request. Merging that release PR publishes the package and creates the GitHub release from the changelog entry.
+When fragments are merged to `master`, a release pull request is opened (or
+updated) automatically. Merging that pull request tags the release, creates the
+GitHub release and publishes the package to PyPI.

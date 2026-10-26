@@ -1,13 +1,11 @@
 name: Release
 
+# The release job in test.yml creates the GitHub release (and tag) with the
+# release app token once the changie release PR is merged, which triggers this
+# workflow. It is the PyPI trusted publisher, so keep its name and environment.
 on:
-  push:
-    branches: ["main", "master"]
-    paths:
-      - "CHANGELOG.md"
-  # Retry a release whose publish failed; the existing-release check below
-  # still prevents publishing the same version twice.
-  workflow_dispatch:
+  release:
+    types: [created]
 
 permissions: {}
 
@@ -28,91 +26,37 @@ jobs:
           fetch-depth: 0
           persist-credentials: false
 
-      - name: Set up Python
-        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
-        with:
-          python-version: "3.13"
-
       - name: Install uv
         uses: astral-sh/setup-uv@1c37ad07a6a961277cf70c0d37d6f313000f5884 # v10.3.0
         with:
           enable-cache: false
 
-      - name: Read release version
+      - name: Check release version
         id: release
+        env:
+          TAG: ${{ github.event.release.tag_name }}
         run: |
-          version=$(python - <<'PY'
-          import tomllib
-          from pathlib import Path
-
-          pyproject = tomllib.loads(Path("pyproject.toml").read_text())
-          print(pyproject["project"]["version"])
-          PY
-          )
-          notes=".changes/${version}.md"
-          if [ ! -f "$notes" ]; then
-            echo "Missing release notes: $notes" >&2
+          version=$(uv version --short)
+          if [ "${version}" != "${TAG}" ]; then
+            echo "::error::Release ${TAG} does not match the package version ${version}"
             exit 1
           fi
-          echo "version=$version" >> "$GITHUB_OUTPUT"
-          echo "notes=$notes" >> "$GITHUB_OUTPUT"
-
-      - name: Check version changed
-        id: version-changed
-        env:
-          BEFORE_SHA: ${{ github.event.before }}
-          EVENT_NAME: ${{ github.event_name }}
-          VERSION: ${{ steps.release.outputs.version }}
-        run: |
-          # Manual runs have no "before" commit; rely on the existing-release check.
-          if [ "${EVENT_NAME}" = "workflow_dispatch" ]; then
-            echo "changed=true" >> "$GITHUB_OUTPUT"
-            exit 0
-          fi
-          previous_version=$(git show "${BEFORE_SHA}:pyproject.toml" | python -c '
-          import sys
-          import tomllib
-
-          print(tomllib.loads(sys.stdin.read())["project"]["version"])
-          '
-          )
-          if [ "$previous_version" = "${VERSION}" ]; then
-            echo "changed=false" >> "$GITHUB_OUTPUT"
-          else
-            echo "changed=true" >> "$GITHUB_OUTPUT"
-          fi
-
-      - name: Check for existing release
-        id: existing-release
-        if: steps.version-changed.outputs.changed == 'true'
-        env:
-          GH_TOKEN: ${{ github.token }}
-          VERSION: ${{ steps.release.outputs.version }}
-        run: |
-          if gh release view "${VERSION}" >/dev/null 2>&1; then
-            echo "exists=true" >> "$GITHUB_OUTPUT"
-          else
-            echo "exists=false" >> "$GITHUB_OUTPUT"
-          fi
+          echo "version=${version}" >> "$GITHUB_OUTPUT"
 
       - name: Build package
-        if: steps.version-changed.outputs.changed == 'true' && steps.existing-release.outputs.exists == 'false'
         run: uv build
 
       # Package plus locked runtime dependencies only, so the SBOM matches what
       # users install from PyPI rather than the dev/test toolchain.
       - name: Install runtime environment
-        if: steps.version-changed.outputs.changed == 'true' && steps.existing-release.outputs.exists == 'false'
         run: uv sync --frozen --no-default-groups --no-editable
 
       - uses: anchore/sbom-action/download-syft@66cbf4bc1f1c0d2edc94016e65bc221b6bb0ad6c # v0.24.3
-        if: steps.version-changed.outputs.changed == 'true' && steps.existing-release.outputs.exists == 'false'
         id: syft
 
       # Scan site-packages only; .venv/bin links to the interpreter outside the env.
       # SPDX for the release page, CycloneDX 1.6 for DependencyTrack.
       - name: Generate SBOM
-        if: steps.version-changed.outputs.changed == 'true' && steps.existing-release.outputs.exists == 'false'
         env:
           SYFT: ${{ steps.syft.outputs.cmd }}
           SYFT_FILE_METADATA_SELECTION: none
@@ -129,24 +73,18 @@ jobs:
             django-postcode-lookup.raw.cdx.json > django-postcode-lookup.cdx.json
 
       - name: Publish package
-        if: steps.version-changed.outputs.changed == 'true' && steps.existing-release.outputs.exists == 'false'
         uses: pypa/gh-action-pypi-publish@dc37677b2e1c63e2034f94d8a5b11f265b73ba33 # v1.14.2
 
-      - name: Create GitHub release
-        if: steps.version-changed.outputs.changed == 'true' && steps.existing-release.outputs.exists == 'false'
+      - name: Upload release assets
         env:
           GH_TOKEN: ${{ github.token }}
-          VERSION: ${{ steps.release.outputs.version }}
-          NOTES: ${{ steps.release.outputs.notes }}
+          TAG: ${{ github.event.release.tag_name }}
         run: |
-          gh release create "${VERSION}" \
-            --title "${VERSION}" \
-            --notes-file "${NOTES}" \
+          gh release upload "${TAG}" \
             dist/* django-postcode-lookup.spdx.json django-postcode-lookup.cdx.json
 
       - name: Mark release published
         id: published
-        if: steps.version-changed.outputs.changed == 'true' && steps.existing-release.outputs.exists == 'false'
         run: echo "released=true" >> "$GITHUB_OUTPUT"
 
       - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
@@ -157,8 +95,7 @@ jobs:
           retention-days: 7
 
   # Separate job so the DT key is never present while repo code runs
-  # (uv build / uv sync above execute the build backend). Releases are created
-  # with GITHUB_TOKEN, which doesn't trigger release workflows, so this lives here.
+  # (uv build / uv sync above execute the build backend).
   dependencytrack:
     needs: release
     if: needs.release.outputs.released == 'true'
