@@ -14,8 +14,10 @@ permissions: {}
 jobs:
   release:
     runs-on: ubuntu-latest
+    environment: pypi
     permissions:
       contents: write # create the GitHub release and attach assets
+      id-token: write # PyPI trusted publishing (OIDC)
     outputs:
       version: ${{ steps.release.outputs.version }}
       released: ${{ steps.published.outputs.released }}
@@ -129,9 +131,6 @@ jobs:
       - name: Publish package
         if: steps.version-changed.outputs.changed == 'true' && steps.existing-release.outputs.exists == 'false'
         uses: pypa/gh-action-pypi-publish@dc37677b2e1c63e2034f94d8a5b11f265b73ba33 # v1.14.2
-        with:
-          user: __token__
-          password: ${{ secrets.pypi_password }}
 
       - name: Create GitHub release
         if: steps.version-changed.outputs.changed == 'true' && steps.existing-release.outputs.exists == 'false'
