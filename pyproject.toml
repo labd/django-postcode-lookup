@@ -60,7 +60,8 @@ testpaths = ["tests"]
 
 [tool.ruff]
 line-length = 99
-target-version = "py314"
+target-version = "py311"
+extend-exclude = ["*.md"]
 
 [tool.ruff.lint]
 select = [

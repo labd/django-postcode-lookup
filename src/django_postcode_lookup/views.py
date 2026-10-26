@@ -50,18 +50,15 @@ class PostcodeLookupView(APIView):
 
         try:
             result = self.backend.lookup(
-                postcode=serializer.data['postcode'],
-                number=serializer.data['number'])
+                postcode=serializer.data["postcode"], number=serializer.data["number"]
+            )
         except PostcodeLookupException:
             return Response(
-                {
-                    'error': 'No valid response received from backend'
-                },
-                status=status.HTTP_400_BAD_REQUEST
+                {"error": "No valid response received from backend"},
+                status=status.HTTP_400_BAD_REQUEST,
             )
 
         return Response(result.json())
 
     def get_serializer(self, **kwargs):
-        return self.serializer_class(
-            backend=self.backend, **kwargs)
+        return self.serializer_class(backend=self.backend, **kwargs)

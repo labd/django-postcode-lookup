@@ -8,20 +8,20 @@ def test_api_webservices_valid(settings):
     rf = APIRequestFactory()
 
     settings.POSTCODE_LOOKUP = {
-        'default': {
-            'backend': 'django_postcode_lookup.backends.Webservices',
-            'OPTIONS': {
-                'username': 'someuser',
-                'password': 'somepassword',
-            }
+        "default": {
+            "backend": "django_postcode_lookup.backends.Webservices",
+            "OPTIONS": {
+                "username": "someuser",
+                "password": "somepassword",
+            },
         }
     }
 
     params = {
-        'postcode': '3531 WR',
-        'number': '1',
+        "postcode": "3531 WR",
+        "number": "1",
     }
-    request = rf.post('/', data=params, format='json')
+    request = rf.post("/", data=params, format="json")
 
     views.PostcodeLookupView.backend = loading.get_backend()  # re-init backend
     view = views.PostcodeLookupView.as_view()
@@ -53,17 +53,17 @@ def test_api_webservices_valid(settings):
         </response>
         """.strip()
         m.get(
-            'https://ws1.webservices.nl/rpc/'
-            'get-simplexml/utf-8/' + 'addressReeksPostcodeSearch/'
-                                     'someuser/somepassword/3531WR1',
-            text=response
+            "https://ws1.webservices.nl/rpc/"
+            "get-simplexml/utf-8/" + "addressReeksPostcodeSearch/"
+            "someuser/somepassword/3531WR1",
+            text=response,
         )
 
         response = view(request)
         assert response.status_code == 200, response.rendered_content
         assert response.data == {
-            'street': 'Niasstraat',
-            'number': '1',
-            'postcode': '3531 WR',
-            'city': 'UTRECHT',
+            "street": "Niasstraat",
+            "number": "1",
+            "postcode": "3531 WR",
+            "city": "UTRECHT",
         }
