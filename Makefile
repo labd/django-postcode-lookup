@@ -8,10 +8,13 @@ TEST_MATRIX ?= \
 	'3.12:4.2.*' \
 	'3.12:5.2.*' \
 	'3.12:6.0.*' \
+	'3.12:6.1.*' \
 	'3.13:5.2.*' \
 	'3.13:6.0.*' \
+	'3.13:6.1.*' \
 	'3.14:5.2.*' \
-	'3.14:6.0.*'
+	'3.14:6.0.*' \
+	'3.14:6.1.*'
 
 
 install:
@@ -30,6 +33,7 @@ test-all:
 	done
 
 lint:
+	uv run --group test ruff format --check
 	uv run --group test ruff check
 
 retest:
@@ -37,8 +41,3 @@ retest:
 
 coverage:
 	uv run --group test pytest --cov=django_postcode_lookup --cov-report=term-missing --cov-report=html
-
-release:
-	rm -rf dist/*
-	uv build
-	twine upload dist/*
