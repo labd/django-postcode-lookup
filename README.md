@@ -1,5 +1,8 @@
 # django-postcode-lookup
 
+[![PyPI](https://img.shields.io/pypi/v/django-postcode-lookup)](https://pypi.org/project/django-postcode-lookup/)
+[![Tests](https://github.com/labd/django-postcode-lookup/actions/workflows/test.yml/badge.svg)](https://github.com/labd/django-postcode-lookup/actions/workflows/test.yml)
+
 This Django app provides a pluggable postcode Django REST Framework endpoint. It
 currently only works for postcodes in The Netherlands.
 
@@ -8,10 +11,6 @@ Currently supports the following services:
     - ApiWise
     - Webservices.nl
     - postcodeapi.nu
-
-## Status
-
-[![PyPI](https://img.shields.io/pypi/v/django-postcode-lookup.svg)](https://pypi.python.org/pypi/django-postcode-lookup/)
 
 ## Installation
 
