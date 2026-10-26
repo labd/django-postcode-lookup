@@ -45,11 +45,11 @@ test = [
   "freezegun==1.5.5",
   "pretend==1.0.9",
   "pytest-cov==7.1.0",
-  "pytest-django==4.12.0",
-  "pytest==9.0.3",
+  "pytest-django==4.14.0",
+  "pytest==9.1.1",
   "requests-mock==1.12.1",
-  "coverage==7.14.0",
-  "ruff==0.14.6",
+  "coverage==7.17.0",
+  "ruff==0.17.2",
 ]
 
 [tool.hatch.build.targets.wheel]
