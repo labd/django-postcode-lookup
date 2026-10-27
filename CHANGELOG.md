@@ -2,6 +2,16 @@
 
 All notable changes to this project are documented in this file.
 
+## 3.0.0 - 2026-10-27
+
+### Added
+
+* Added support for Django 6.1
+
+### Removed
+
+* Removed support for Python 3.10, Python 3.11 or newer is now required
+
 ## 2.0.0 - 2026-10-12
 
 ### Added
